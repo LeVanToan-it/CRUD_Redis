@@ -26,11 +26,11 @@ public class EmployeeRepository {
     }
 
     public void saveEmployee(Employee employee){
-    	listOperations.leftPush("LEMPLOYEE", employee.getId(), employee);
+    	listOperations.leftPush("LEMPLOYEE", employee);
         //hashOperations.put("EMPLOYEE", employee.getId(), employee);
     }
     public List<Employee> findAll(){
-    	return (List<Employee>) listOperations.range("LEMPLOYEE",0,2);
+    	return (List<Employee>) listOperations.range("LEMPLOYEE", 0, -1);
         //return hashOperations.values("EMPLOYEE");
     }
     public Employee findById(Integer id){
@@ -39,10 +39,11 @@ public class EmployeeRepository {
     }
 
     public void update(Employee employee){
-        saveEmployee(employee);
+    	listOperations.set("LEMPLOYEE", 1, employee);
+        //saveEmployee(employee);
     }
     public void delete(Integer id){
-    	listOperations.remove("LEMPLOYEE", 1,id);
+    	listOperations.leftPop("LEMPLOYEE");
         //hashOperations.delete("EMPLOYEE", id);
     }
 }
